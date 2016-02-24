@@ -15,19 +15,16 @@ public class PriyasHash<Key, Value> {
         if (table[hashCode] == null) {
             table[hashCode] = newEntry;
         } else {
-            makeLinkedList(key, hashCode, newEntry);
+            makeLinkedList(hashCode, newEntry);
         }
         return newEntry;
     }
 
-    private void makeLinkedList(Key newKey, int hashCode, Entry<Key, Value> newEntry) {
+    private void makeLinkedList(int hashCode, Entry<Key, Value> newEntry) {
         Entry<Key, Value> previousValue = null;
         Entry<Key, Value> currentEntry = table[hashCode];
 
         while (currentEntry != null) {
-            if (currentEntry.key.equals(newKey)) {
-                currentEntry.nextNode = newEntry;
-            }
             previousValue = currentEntry;
             currentEntry = currentEntry.nextNode;
         }
