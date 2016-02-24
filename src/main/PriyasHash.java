@@ -4,8 +4,7 @@ public class PriyasHash<Key, Value> {
     private final Entry<Key, Value>[] table;
 
     public PriyasHash() {
-        Entry<Key, Value>[] table = new Entry[3];
-        this.table = table;
+        this.table = new Entry[3];
     }
 
     public Entry<Key, Value> add(Key key, Value value) {
@@ -15,20 +14,22 @@ public class PriyasHash<Key, Value> {
         if (table[hashCode] == null) {
             table[hashCode] = newEntry;
         } else {
-            makeLinkedList(hashCode, newEntry);
+            append(hashCode, newEntry);
         }
         return newEntry;
     }
 
-    private void makeLinkedList(int hashCode, Entry<Key, Value> newEntry) {
-        Entry<Key, Value> previousValue = null;
-        Entry<Key, Value> currentEntry = table[hashCode];
+    private void append(int hashCode, Entry<Key, Value> newEntry) {
+        Entry<Key, Value> endOfList = getLastEntry(null, table[hashCode]);
+        endOfList.nextNode = newEntry;
+    }
 
+    private Entry<Key, Value> getLastEntry(Entry<Key, Value> previousValue, Entry<Key, Value> currentEntry) {
         while (currentEntry != null) {
             previousValue = currentEntry;
             currentEntry = currentEntry.nextNode;
         }
-        previousValue.nextNode = newEntry;
+        return previousValue;
     }
 
     public String search(Key key) {
